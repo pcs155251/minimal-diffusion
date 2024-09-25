@@ -7,6 +7,7 @@ import numpy as np
 from time import time
 from tqdm import tqdm
 from easydict import EasyDict
+import pathlib
 
 import torch
 import torch.distributed as dist
@@ -21,8 +22,6 @@ import unets
 from peft import get_peft_config, get_peft_model, LoraConfig, TaskType, inject_adapter_in_model
 import loralib as lora
 from torch.nn import Conv2d, Linear, Embedding
-# peft support list
-# torch.nn.Linear, torch.nn.Embedding, torch.nn.Conv2d, transformers.pytorch_utils.Conv1D
 
 unsqueeze3x = lambda x: x[..., None, None, None]
 
@@ -359,6 +358,7 @@ def main():
 
     # setup
     args = parser.parse_args()
+    pathlib.Path(args.save_dir).mkdir(parents=True, exist_ok=True)
     metadata = get_metadata(args.dataset)
     torch.backends.cudnn.benchmark = True
     args.device = "cuda:{}".format(args.local_rank)
@@ -443,7 +443,6 @@ def main():
     #             param.requires_grad = True
 
 
-    # import ipdb; ipdb.set_trace()
 
 
     # distributed training
@@ -540,6 +539,7 @@ def main():
                     f"{args.arch}_{args.dataset}-epoch_{args.epochs}-timesteps_{args.diffusion_steps}-class_condn_{args.class_cond}_ema_{args.ema_w}.pt",
                 ),
             )
+            # model.save_pretrained(os.path.join(args.save_dir, f"lora"))
 
 
 if __name__ == "__main__":
