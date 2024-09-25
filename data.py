@@ -6,6 +6,7 @@ from easydict import EasyDict
 from collections import OrderedDict
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
+from custom_datasets import MNISTPrinted
 
 # datasets.MNIST.resources = [
 #             ('https://ossci-datasets.s3.amazonaws.com/mnist/train-images-idx3-ubyte.gz', 'f68b3c2dcbeaaa9fbdd348bbdeb94873'),
@@ -23,6 +24,16 @@ def get_metadata(name):
                 "num_classes": 10,
                 "train_images": 60000,
                 "val_images": 10000,
+                "num_channels": 1,
+            }
+        )
+    elif name == "mnist_printed":
+            metadata = EasyDict(
+            {
+                "image_size": 28,
+                "num_classes": 10,
+                "train_images": 4480,
+                "val_images": 0,
                 "num_channels": 1,
             }
         )
@@ -160,6 +171,19 @@ def get_dataset(name, data_dir, metadata):
             root=data_dir,
             train=True,
             download=True,
+            transform=transform_train,
+        )
+    elif name == "mnist_printed":
+        transform_train = transforms.Compose(
+            [
+                transforms.RandomResizedCrop(
+                    metadata.image_size, scale=(0.8, 1.0), ratio=(0.8, 1.2)
+                ),
+                transforms.ToTensor(),
+            ]
+        )
+        train_set = MNISTPrinted(
+            root=data_dir,
             transform=transform_train,
         )
     elif name == "mnist_m":
