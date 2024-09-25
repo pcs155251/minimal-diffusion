@@ -6,7 +6,7 @@ import itertools
 # Specify the directory where your fonts are located
 # font_dir = "path_to_your_fonts_directory"  # Change this to your font directory
 font_dir = '/usr/share/fonts/truetype/'
-output_dir = "./digits_images/"  # Output directory for images
+output_dir = "./dataset/MNIST_printed/"  # Output directory for images
 pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 # List of digits to create images for
