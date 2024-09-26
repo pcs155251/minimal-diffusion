@@ -17,7 +17,7 @@ class MNISTPrinted(VisionDataset):
 
         # Load all image file paths and labels
         self.image_paths = sorted(pathlib.Path(root).rglob('*.png'))
-        self.labels = [int(image_path.stem[6].split('_')[1]) for image_path in self.image_paths]
+        self.labels = [int(image_path.stem.split('_')[1]) for image_path in self.image_paths]
         
 
     def __len__(self):
