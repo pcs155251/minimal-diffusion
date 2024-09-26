@@ -7,6 +7,7 @@ import numpy as np
 from time import time
 from tqdm import tqdm
 from easydict import EasyDict
+import pathlib
 
 import torch
 import torch.distributed as dist
@@ -352,6 +353,7 @@ def main():
 
     # setup
     args = parser.parse_args()
+    pathlib.Path(args.save_dir).mkdir(parents=True, exist_ok=True)
     metadata = get_metadata(args.dataset)
     torch.backends.cudnn.benchmark = True
     args.device = "cuda:{}".format(args.local_rank)
