@@ -1,14 +1,14 @@
 # train
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main.py --arch UNet --dataset mnist --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --save-dir ./trained_models/all-0923
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main.py --arch UNet --dataset mnist_printed --data-dir ./dataset/MNIST_printed10 --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --save-dir ./trained_models/all-MNIST-printed10-0925
 
 # train lora
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main_lora.py --arch UNet --dataset mnist --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --pretrained-ckpt ./trained_models/0918/UNet_mnist-epoch_500-timesteps_1000-class_condn_True.pt
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main_peft.py --arch UNet --dataset mnist --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --pretrained-ckpt ./trained_models/0918/UNet_mnist-epoch_500-timesteps_1000-class_condn_True.pt
 
 # single gpu for testing
-python main_lora.py --arch UNet --dataset mnist --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --pretrained-ckpt ./trained_models/0918/UNet_mnist-epoch_500-timesteps_1000-class_condn_True.pt
+python main_peft.py --arch UNet --dataset mnist --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --pretrained-ckpt ./trained_models/0918/UNet_mnist-epoch_500-timesteps_1000-class_condn_True.pt
 
 # sampling
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main.py --arch UNet --dataset mnist --batch-size 256 --num-sampled-images 500 --class-cond --sampling-steps 100 --sampling-only --save-dir ./sampled_images/ --pretrained-ckpt ./trained_models/all-0923/UNet_mnist-epoch_100-timesteps_1000-class_condn_True.pt
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main.py --arch UNet --dataset mnist --batch-size 256 --num-sampled-images 500 --class-cond --sampling-steps 100 --sampling-only --save-dir ./sampled_images/lora --pretrained-ckpt ./trained_models/all-0923/UNet_mnist-epoch_100-timesteps_1000-class_condn_True.pt
 
 # save sampled images
 python save_mnist_sampled_images.py

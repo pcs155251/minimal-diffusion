@@ -6,7 +6,7 @@ import itertools
 # Specify the directory where your fonts are located
 # font_dir = "path_to_your_fonts_directory"  # Change this to your font directory
 font_dir = '/usr/share/fonts/truetype/'
-output_dir = "./dataset/MNIST_printed/"  # Output directory for images
+output_dir = "./dataset/MNIST_printed10/"  # Output directory for images
 pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 # List of digits to create images for
@@ -24,7 +24,7 @@ shift_ys = list(range(4))
 print(f'number of combinations: {len(font_sizes) * len(angles) * len(shift_xs) * len(shift_ys)}')
 
 # Generate images for each digit and each font
-for font_path in font_files[:1]:
+for font_path in font_files[:10]:
     for digit, font_size, angle, shift_x, shift_y in itertools.product(digits, font_sizes, angles, shift_xs, shift_ys):
         # Load the font
         font = ImageFont.truetype(font_path, font_size)
