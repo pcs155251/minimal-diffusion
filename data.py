@@ -32,8 +32,6 @@ def get_metadata(name):
             {
                 "image_size": 28,
                 "num_classes": 10,
-                "train_images": 4480,
-                "val_images": 0,
                 "num_channels": 1,
             }
         )
