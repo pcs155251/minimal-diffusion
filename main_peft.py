@@ -417,7 +417,7 @@ def main():
     #     'output_blocks.15.0.skip_connection',
     #     'out.2',
     # ]
-    unet_lora_config = LoraConfig(peft_type='LORA', r=8, lora_alpha=1, init_lora_weights="gaussian", target_modules=target_modules)
+    unet_lora_config = LoraConfig(peft_type='LORA', r=16, lora_alpha=1, init_lora_weights="gaussian", target_modules=target_modules)
 
     ## try to solve require_grads probelm
     # if hasattr(model, "enable_input_require_grads"):
@@ -520,7 +520,7 @@ def main():
                 cv2.imwrite(
                     os.path.join(
                         args.save_dir,
-                        f"{args.arch}_{args.dataset}-{args.diffusion_steps}_steps-{args.sampling_steps}-sampling_steps-class_condn_{args.class_cond}.png",
+                        f"{args.arch}_{args.dataset}-{args.diffusion_steps}_steps-{args.sampling_steps}-sampling_steps-class_condn_{args.class_cond}_{epoch}.png",
                     ),
                     np.concatenate(sampled_images, axis=1)[:, :, ::-1],
                 )
