@@ -1,8 +1,8 @@
 # train
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main.py --arch UNet --dataset mnist_printed --data-dir ./dataset/MNIST_printed10 --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --save-dir ./trained_models/all-MNIST-printed10-0925
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main.py --arch UNet --dataset mnist_printed --data-dir ./dataset/MNIST_printed_simple_size12 --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --save-dir ./trained_models/all-MNIST-printed-simple-size12-0929
 
 # train lora
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main_peft.py --arch UNet --dataset mnist --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --pretrained-ckpt ./trained_models/0918/UNet_mnist-epoch_500-timesteps_1000-class_condn_True.pt
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main_peft.py --arch UNet --dataset mnist_printed --data-dir ./dataset/MNIST_printed_simple_size24 --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --save-dir ./trained_models/lora-size24-0929-all-MNIST-printed-simple-size12-0929 --pretrained-ckpt ./trained_models/all-MNIST-printed-simple-size12-0929/UNet_mnist_printed-epoch_100-timesteps_1000-class_condn_True.pt
 
 # single gpu for testing
 python main_peft.py --arch UNet --dataset mnist --class-cond --epochs 100 --batch-size 256 --sampling-steps 100 --pretrained-ckpt ./trained_models/0918/UNet_mnist-epoch_500-timesteps_1000-class_condn_True.pt
